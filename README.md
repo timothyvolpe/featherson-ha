@@ -1,2 +1,3 @@
-# featherson-ha
-Home Assistant Featherstone Integration
+# Feathestone Home Assistant Integration
+
+Integration for my custom Home Assistant devices.
