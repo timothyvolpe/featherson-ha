@@ -1,0 +1,11 @@
+{
+	"domain": "featherstone",
+	"name": "Featherstone Home Automation",
+	"documentation": "",
+	"issue_tracker": "",
+	"dependencies": [],
+	"after_dependencies": [],
+	"codeowners": ["@timothyvolpe"],
+	"requirements": [],
+	"config_flow": true
+}
