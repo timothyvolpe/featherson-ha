@@ -23,15 +23,18 @@ class FeatherstoneConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 	async def async_step_user(self, user_input = None):
 		errors = {}
 		if user_input is not None:
-			device_info = await discover_device(self.hass, user_input)
-			await self.async_set_unique_id(user_input[CONF_USERNAME])
-			return self.async_create_entry(title=device_info["title"], data=user_input)
-			pass
-		except Exception as err:
-			_LOGGER.exception(
-				"Exception validating credentials: {0}".format(err)
-			)
-			errors["base"] = "unknown"
+			try:
+				device_info = await discover_device(self.hass, user_input)
+				await self.async_set_unique_id(user_input[CONF_USERNAME])
+				return self.async_create_entry(
+					title=device_info["title"], data=user_input
+				)
+				pass
+			except Exception as err:
+				_LOGGER.exception(
+					"Exception validating credentials: {0}".format(err)
+				)
+				errors["base"] = "unknown"
 		return self.async_show_form(
 			step_id="user", data_schema=DATA_SCHEMA, errors=errors
 		)
