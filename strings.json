@@ -1,0 +1,21 @@
+{
+	"config": {
+		"step": {
+			"user": {
+				"title": "Connect to Featherstone Devices",
+				"data": {
+					"username": "[%key:common::config_flow::data::username%]",
+					"password": "[%key:common::config_flow::data::password%]"
+				}
+			}
+		},
+		"error": {
+			"cannot_connect": "Failed to detect any devices, please try again",
+			"invalid_auth": "Invalid credentials",
+			"unknown": "Unexpected error"
+		},
+		"abort": {
+			"already_configured": "Integration is already configured"
+		}
+	}
+}
