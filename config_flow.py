@@ -1,12 +1,10 @@
 import logging
 import voluptuous as vol
+import featherstone
 
 from homeassistant import config_entries, core
 from homeassistant.const import(
 	CONF_USERNAME, CONF_PASSWORD
-)
-from featherstone import (
-	FestoneDiscover
 )
 from .const import DOMAIN
 
@@ -21,7 +19,7 @@ DATA_SCHEMA = vol.Schema(
 
 async def discover_device( hass: core.HomeAssistant, data ):
 	# Discover devices...
-	FestoneDiscover.discover_multiple()
+	featherstone.FestoneDiscover.discover_multiple()
 
 	return {"title": data[CONF_USERNAME]}
 	

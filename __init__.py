@@ -2,6 +2,7 @@ import asyncio
 import logging
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
+import featherstone
 
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
@@ -9,11 +10,6 @@ from homeassistant.const import(
 	CONF_USERNAME, CONF_PASSWORD
 )
 from .const import DOMAIN
-
-from featherstone import (
-	FestoneDiscover,
-	FestoneManager
-)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -45,6 +41,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 	
 	# get devices
 	device_data = FestoneDeviceData()
-	discovered = FestoneDiscover.discover_multiple()
+	discovered = featherstone.FestoneDiscover.discover_multiple()
 		
 	
