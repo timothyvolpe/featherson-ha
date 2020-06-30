@@ -11,11 +11,11 @@ import time
 
 from typing import Dict
 
-from festone_protocol import (
+from .festone_protocol import (
 	FestoneProtocol,
 	FESTONE_PORT
 )
-from festone_device import (
+from .festone_device import (
 	FestoneDevice,
 	FestoneRelay
 )

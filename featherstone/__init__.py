@@ -1,7 +1,4 @@
-from . import *
-from . import festone_device
-from . import festone_protocol
-from . import festone_discover
-from . import festone_manager
+from .festone_discover import FestoneDiscover
+from .festone_protocol import FestoneProtocol
 
 __version__ = "0.0.1"

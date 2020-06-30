@@ -4,7 +4,7 @@ import json
 
 from typing import Dict
 
-from festone_protocol import (
+from .festone_protocol import (
 	FestoneProtocol,
 	FESTONE_PORT
 )
