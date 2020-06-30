@@ -10,13 +10,22 @@ from homeassistant.const import(
 )
 from .const import DOMAIN
 
+from featherstone import (
+	FestoneDiscover,
+	FestoneManager
+)
+
 _LOGGER = logging.getLogger(__name__)
+
+class FestoneDeviceData:
+	def __init__(self):
+		self._device_data = {}
 
 CONFIG_SCHEMA = vol.Schema(
 	{
 		DOMAIN: vol.Schema(
 			{
-				vol.Required(CONF_USERNAME):  cv.string,
+				vol.Required(CONF_USERNAME): cv.string,
 				vol.Required(CONF_PASSWORD): cv.string,
 			}
 		)
@@ -30,4 +39,12 @@ async def async_setup(hass, config):
 	if not conf:
 		return True
 	return true
+	
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
+	manager = FestoneManager()
+	
+	# get devices
+	device_data = FestoneDeviceData()
+	discovered = FestoneDiscover.discover_multiple()
+		
 	
