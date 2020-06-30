@@ -1,6 +1,6 @@
 import logging
 import voluptuous as vol
-import featherstone
+from . import featherstone
 
 from homeassistant import config_entries, core
 from homeassistant.const import(

@@ -2,7 +2,7 @@ import asyncio
 import logging
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
-import featherstone
+from . import featherstone
 
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
