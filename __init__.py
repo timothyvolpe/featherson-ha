@@ -3,16 +3,20 @@ import logging
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from . import featherstone
+from datetime import timedelta
 
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
+from homeassistant.helpers.event import async_track_time_interval
+from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.const import(
 	CONF_USERNAME, CONF_PASSWORD
 )
 from .const import(
 	DOMAIN,
 	FESTONE_MANAGER,
-	FESTONE_DEVICE_DATA
+	FESTONE_DEVICE_DATA,
+	FESTONE_UPDATE_INTERVAL
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -57,6 +61,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 	for component in PLATFORMS:
 		hass.async_create_task(
 		hass.config_entries.async_forward_entry_setup(entry, component)
+	)
+
+	async def async_festone_update(_):
+		devices = hass.data[DOMAIN][entry.entry_id][FESTONE_DEVICE_DATA]
+		for device in devices.values():
+			await device.update()
+		async_dispatcher_send(hass, FESTONE_DEVICE_UPDATE)
+
+	hass.data[DOMAIN][entry.entry_id][
+		"track_time_remove_callback"
+	] = async_track_time_interval(
+		hass, async_festone_update, timedelta(seconds=FESTONE_UPDATE_INTERVAL)
 	)
 
 	return True

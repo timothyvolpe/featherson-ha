@@ -18,6 +18,7 @@ class FestoneDevice():
 		self.uid = uid
 		self.password = ""
 		self.protocol = FestoneProtocol()
+		self.state = False
 		
 	def set_password(self, password: str):
 		self.password = password
@@ -41,6 +42,12 @@ class FestoneDevice():
 	@property
 	def device_uid(self):
 		return self.uid
+	@property
+	def device_state(self):
+		return self.state
+
+	def update(self):
+		raise NotImplementedError()
 		
 class FestoneRelay(FestoneDevice):
 	DEVICE_ID = 0x1000
@@ -131,6 +138,11 @@ class FestoneRelay(FestoneDevice):
 				return True, response["state"]
 		return False, False
 
-		
-	
-	
+	def update(self):
+		status, state = device.get_state()
+		if status:
+			self.state = state
+			return True
+		else:
+			_LOGGER.error("Device {0} {1} did not response to get_state".format(self.device_name, self.device_uid))
+			return True
