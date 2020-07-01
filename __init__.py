@@ -35,12 +35,14 @@ async def async_setup(hass, config):
 	if not conf:
 		return True
 	return true
-	
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-	manager = FestoneManager()
-	
+	manager = featherstone.FestoneManager()
+
 	# get devices
 	device_data = FestoneDeviceData()
 	discovered = featherstone.FestoneDiscover.discover_multiple()
-		
-	
+
+	return True
+
+	return True

@@ -32,12 +32,12 @@ class FestoneDiscover:
 	@staticmethod
 	def discover_multiple(
 		protocol: FestoneProtocol = None,
-		target_addr: str = '<broadcast>',
+		target_addr: str = '255.255.255.255',
 		target_port: int = FESTONE_PORT,
 		timeout: int = 3,
 		packets_to_send: int = 3
 		) -> Dict[str, FestoneDevice]:
-		
+
 		# Create socket for broadcast
 		sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		sock.bind(('', 0))
@@ -51,7 +51,7 @@ class FestoneDiscover:
 			net = ipaddress.IPv4Network(ip_addr + '/' + NETMASK, False)
 			broadcast_addr = str(net.broadcast_address)
 			target_addr = broadcast_addr
-		
+
 		# Encode the query
 		if protocol is None:
 			protocol = FestoneProtocol()
@@ -84,7 +84,12 @@ class FestoneDiscover:
 							if device_class is not None:
 								# found a valid device, initialize
 								discovered_devices[ip] = device_class(ip, jsonData["device_uid"])
-								pass
+								_LOGGER.debug(
+									"Found device {0} at {1}".format(
+												discovered_devices[ip].device_name,
+												ip
+												)
+								)
 							else:
 								_LOGGER.debug(
 									"Device at {0} is not a supported device" \
