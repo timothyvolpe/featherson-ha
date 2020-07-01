@@ -113,7 +113,7 @@ class FestoneDiscover:
 		except json.JSONDecodeError as err:
 			_LOGGER.error("Device at {0} responded, but the JSON packet was invalid: {1}".format(addr, err))
 		except socket.timeout:
-			pass #
+			_LOGGER.debug("Discover request timed out")
 		except Exception as err:
 			_LOGGER.error("Discovery exception {0}".format(err))
 		

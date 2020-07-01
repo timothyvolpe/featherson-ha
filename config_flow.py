@@ -17,10 +17,7 @@ DATA_SCHEMA = vol.Schema(
 	}
 )
 
-async def discover_device( hass: core.HomeAssistant, data ):
-	# Discover devices...
-	featherstone.FestoneDiscover.discover_multiple()
-
+async def validate_credentials( hass: core.HomeAssistant, data ):
 	return {"title": data[CONF_USERNAME]}
 	
 class FeatherstoneConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -28,10 +25,10 @@ class FeatherstoneConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 		errors = {}
 		if user_input is not None:
 			try:
-				device_info = await discover_device(self.hass, user_input)
+				component_info = await validate_credentials(self.hass, user_input)
 				await self.async_set_unique_id(user_input[CONF_USERNAME])
 				return self.async_create_entry(
-					title=device_info["title"], data=user_input
+					title=component_info["title"], data=user_input
 				)
 				pass
 			except Exception as err:

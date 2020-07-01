@@ -17,6 +17,8 @@ from .const import(
 
 _LOGGER = logging.getLogger(__name__)
 
+PLATFORMS = ["binary_sensor"]
+
 class FestoneDeviceData:
 	def __init__(self):
 		self._device_data = {}
@@ -46,11 +48,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 	# get devices
 	device_data = FestoneDeviceData()
 	discovered = featherstone.FestoneDiscover.discover_multiple()
-	
+
 	hass.data[DOMAIN][entry.entry_id] = {
-		FESTONE_MANAGER: manager
+		FESTONE_MANAGER: manager,
 		FESTONE_DEVICE_DATA: discovered
 	}
+
+	for component in PLATFORMS:
+		hass.async_create_task(
+		hass.config_entries.async_forward_entry_setup(entry, component)
+	)
 
 	return True
 	
