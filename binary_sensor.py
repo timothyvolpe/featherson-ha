@@ -30,7 +30,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class FestoneBinaryDevice(BinarySensorEntity):
 	def __init__(self, device):
 		self._name = device.device_name
-	  	self._id = device.device_id
+		self._id = device.device_id
 		self._unique_id = device.device_uid
 		self._state = None
 
