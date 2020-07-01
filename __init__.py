@@ -9,7 +9,11 @@ from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from homeassistant.const import(
 	CONF_USERNAME, CONF_PASSWORD
 )
-from .const import DOMAIN
+from .const import(
+	DOMAIN,
+	FESTONE_MANAGER,
+	FESTONE_DEVICE_DATA
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -42,7 +46,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 	# get devices
 	device_data = FestoneDeviceData()
 	discovered = featherstone.FestoneDiscover.discover_multiple()
+	
+	hass.data[DOMAIN][entry.entry_id] = {
+		FESTONE_MANAGER: manager
+		FESTONE_DEVICE_DATA: discovered
+	}
 
 	return True
-
-	return True
+	
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
+	hass.data[DOMAIN].pop(entry.entry_id)
