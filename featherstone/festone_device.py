@@ -139,7 +139,7 @@ class FestoneRelay(FestoneDevice):
 		return False, False
 
 	def update(self):
-		status, state = device.get_state()
+		status, state = self.get_state()
 		if status:
 			self.state = state
 			return True

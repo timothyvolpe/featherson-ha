@@ -38,6 +38,7 @@ class FestoneBinaryDevice(BinarySensorEntity):
 		self._id = device.device_id
 		self._unique_id = device.device_uid
 		self._state = None
+		self._device = device
 
 	@property
 	def is_on(self):
@@ -65,5 +66,6 @@ class FestoneBinaryDevice(BinarySensorEntity):
 
 	@callback
 	def _async_update_from_data(self):
-		self._state = device.state
+		_LOGGER.debug("Updating device {0}".format(self._name))
+		self._state = self._device.state
 		self.async_write_ha_state()

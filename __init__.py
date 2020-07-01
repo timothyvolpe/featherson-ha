@@ -16,6 +16,7 @@ from .const import(
 	DOMAIN,
 	FESTONE_MANAGER,
 	FESTONE_DEVICE_DATA,
+	FESTONE_DEVICE_UPDATE,
 	FESTONE_UPDATE_INTERVAL
 )
 
@@ -64,9 +65,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 	)
 
 	async def async_festone_update(_):
+		_LOGGER.debug("Updating featherstone...")
 		devices = hass.data[DOMAIN][entry.entry_id][FESTONE_DEVICE_DATA]
 		for device in devices.values():
-			await device.update()
+			device.update()
 		async_dispatcher_send(hass, FESTONE_DEVICE_UPDATE)
 
 	hass.data[DOMAIN][entry.entry_id][
@@ -76,6 +78,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 	)
 
 	return True
-	
+
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
-	hass.data[DOMAIN].pop(entry.entry_id)
+	unload_ok = all(
+		await asyncio.gather(
+			*[
+				hass.config_entries.async_forward_entry_unload(entry, component)
+				for component in PLATFORMS
+			]
+		)
+	)
+	track_time_remove_callback = hass.data[DOMAIN][entry.entry_id][
+		"track_time_remove_callback"
+	]
+
+	if unload_ok:
+		hass.data[DOMAIN].pop(entry.entry_id)
+
+	return unload_ok
