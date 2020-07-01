@@ -22,7 +22,7 @@ from .const import(
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS = ["binary_sensor"]
+PLATFORMS = ["binary_sensor", "switch"]
 
 class FestoneDeviceData:
 	def __init__(self):

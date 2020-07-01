@@ -23,12 +23,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 	binary_devices = []
 	for device in device_data.values():
 		binary_devices.append(FestoneBinaryDevice(device))
-		_LOGGER.debug("Creating entity for device {0}".format(device.device_name))
-	
-	#binary_devices = [
-	#	FestoneBinaryDevice(device)
-	#	for device in device_data
-	#]
+		_LOGGER.debug("Creating binary entity for device {0}".format(device.device_name))
 	
 	async_add_entities(binary_devices)
 	
